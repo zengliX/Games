@@ -126,7 +126,7 @@ class Piece:
             p = Piece(self.row+1,self.col,self.shape)
         elif move == 't':
             p = Piece(self.row, self.col,RotationMap[self.shape])
-        elif move == 'n':
+        elif move == 'n' or move == '':
             return self
         return p
     

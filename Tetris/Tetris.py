@@ -3,8 +3,8 @@ from  gamestate import GameState
 #reload(gamestate)
 
 parser = argparse.ArgumentParser()
-parser.add_argument('R', help='number of rows')
-parser.add_argument('C',help='number of columns')
+parser.add_argument('R', help='number of rows for the game board (>=5)')
+parser.add_argument('C',help='number of columns for the game board (>=5)')
 args = parser.parse_args()
 
 if __name__ == "__main__":

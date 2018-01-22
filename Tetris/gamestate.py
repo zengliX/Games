@@ -8,7 +8,7 @@ class GameState:
         self.ncol = c
         self.needNew = True
         self.Nshape = 19
-        self.validmoves = set(['l','r','d','t','n'])
+        self.validmoves = set(['l','r','d','t','n',''])
         # score related
         self.score = 0
         self.ct_piece = 0
@@ -94,19 +94,18 @@ class GameState:
     """
     def printWithPiece(self,p):
         print()
-        print(' '+'-'*self.ncol+' ')
+        print(' '+'-'*2*self.ncol+' ')
         for i in range(self.nrow):
             print('|',end='')
             for j in range(self.ncol):
                 # overlapping part
                 if i-p.row<=0 and p.row-i<=3 and j-p.col>=0 and j-p.col<=3:
                     val = self.Board[i][j] + p.pieceBoard[i-p.row+3][j-p.col]
-                    print(' ' if val==0 else chr(9608), end='')
+                    print('  ' if val==0 else chr(9608)*2, end='')
                 else: # game board only part
-                    print(' ' if self.Board[i][j]==0 else chr(9608), end='')
+                    print('  ' if self.Board[i][j]==0 else chr(9608)*2, end='')
             print('|')
-        print(' '+'-'*self.ncol+' ')
+        print(' '+'-'*2*self.ncol+' ')
         print("#piece: %d   score: %d\n" %(self.ct_piece, self.score))
     
-            
-            
+	
