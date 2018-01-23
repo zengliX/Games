@@ -1,6 +1,5 @@
 import argparse
 from  gamestate import GameState
-#reload(gamestate)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('R', help='number of rows for the game board (>=5)')
@@ -22,7 +21,7 @@ if __name__ == "__main__":
             cur_piece = Game.RandomPiece()
             #print("new piece generated:")
             #cur_piece.printPiece()
-            cur_piece.printInfo()
+            #cur_piece.printInfo()
             Game.needNew = False
             # if cur_piece not valid, then game over
             if not Game.ValidPiece(cur_piece):
