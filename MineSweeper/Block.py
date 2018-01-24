@@ -1,6 +1,9 @@
 from colorama import init, Fore
 init(autoreset=True)
 
+ColorMap = {1:Fore.WHITE, 2:Fore.GREEN, 3:Fore.CYAN, 4:Fore.LIGHTYELLOW_EX, \
+            5: Fore.MAGENTA, 6:Fore.MAGENTA, 7:Fore.RED, 8:Fore.RED, ' ':Fore.BLACK}
+
 class Block:
     """
     initialize parameters
@@ -46,11 +49,11 @@ class Block:
     """
     def print_mask(self):
         if self.flag:
-            print(Fore.GREEN+' '+'F',end='')
+            print(Fore.YELLOW+' '+'F',end='')
         elif self.mask:
             print(' '+chr(9608),end='')
         else:
-            print(' '+str(self.value),end='')
+            print(ColorMap[self.value]+' '+str(self.value),end='')
     
     """
     print without mask
@@ -59,4 +62,4 @@ class Block:
         if self.mine:
             print(Fore.RED+' '+str(self.value),end='')
         else:
-            print(' '+str(self.value),end='')
+            print(ColorMap[self.value]+' '+str(self.value),end='')

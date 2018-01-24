@@ -89,7 +89,7 @@ You will see this prompt asking you for next move: `You next move (f/c row colum
 There are two kinds of moves you can make:
 
 - flag (syntax `f row col`)   
-   for example: `f a c` will flag block row `a` and column `c` as mine (marked with a green `F`)
+   for example: `f a c` will flag block row `a` and column `c` as mine (marked with a yellow `F`)
 - click (syntax `c row col`)   
 	for example: `c b e` will click on block row `e` column `f`. If it is a mine, game over. Otherwise, the number for that block will be disclosed.
 
