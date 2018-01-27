@@ -30,7 +30,7 @@ class Window:
         curses.noecho()
         # React to every key press, not just when pressing "enter"
         curses.cbreak()
-        # Enable easy key codes (will come back to this)
+        # Enable easy key codes
         self.stdscr.keypad(True)
         # Start colors in curses
         curses.start_color()
@@ -62,6 +62,7 @@ class Window:
     add string to screen
     (row, col): coordinate where text to be added
     s: string to be added
+    color: specify color for print; need the color initiated
     """
     def add(self,row, col, s, color = None):
         if color is None:
@@ -116,3 +117,5 @@ class Window:
         self.stdscr.keypad(False)
         curses.echo()
         curses.endwin()
+
+# part of the code referred from: https://gist.github.com/claymcleod/b670285f334acd56ad1c
