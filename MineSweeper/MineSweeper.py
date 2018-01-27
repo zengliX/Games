@@ -44,6 +44,7 @@ def Gamerun(stdscr):
         # check game win
         if Game.gamewin():
             window.set_status("You found all the mines! Press any button to exit ...",4)
+            Game.print_mask(window)
             window.newKey()
             exit(0)
         
