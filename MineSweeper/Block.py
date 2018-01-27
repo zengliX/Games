@@ -1,8 +1,9 @@
-from colorama import init, Fore
-init(autoreset=True)
-
-ColorMap = {1:Fore.WHITE, 2:Fore.GREEN, 3:Fore.CYAN, 4:Fore.LIGHTYELLOW_EX, \
-            5: Fore.MAGENTA, 6:Fore.MAGENTA, 7:Fore.RED, 8:Fore.RED, ' ':Fore.BLACK}
+"""
+ColorMap:
+    map numbers to colors specified in MineSweeper.py
+"""
+ColorMap = {1:1, 2:1, 3:2, 4:3, \
+            5:3 , 6:4, 7:4, 8:4, ' ':6,'block':6,'F':4}
 
 class Block:
     """
@@ -45,21 +46,22 @@ class Block:
                 Game.wrongFlag -= 1
     
     """
-    print with mask
+    str with mask
     """
-    def print_mask(self):
+    def str_mask(self):
         if self.flag:
-            print(Fore.YELLOW+' '+'F',end='')
+            return(' '+'F',ColorMap['F'])
         elif self.mask:
-            print(' '+chr(9608),end='')
+            return(' '+chr(9608),ColorMap['block'])
         else:
-            print(ColorMap[self.value]+' '+str(self.value),end='')
+            return(' '+str(self.value),ColorMap[self.value])
     
     """
-    print without mask
+    str without mask
     """
-    def print_unmask(self):
+    def str_unmask(self):
         if self.mine:
-            print(Fore.RED+' '+str(self.value),end='')
+            return(' '+str(self.value),ColorMap[8])
         else:
-            print(ColorMap[self.value]+' '+str(self.value),end='')
+            return(' '+str(self.value),ColorMap[self.value])
+            

@@ -1,7 +1,5 @@
 import Block
 import numpy as np
-
-
     
 
 class MineSweeperBoard:
@@ -65,20 +63,31 @@ class MineSweeperBoard:
                     ct += arr[i,j]
         ct -= arr[r,c]
         return ct
-            
+     
+    """
+    request user's input
+    collect 3 chars and return the list
+    """
+    
+    def request_input(self,GW):
+        out = ['_']*3
+        GW.set_status("your next move, in the format of (f/c row col). f for flag, c for click.",2)
+        GW.set_status("your input: ({}, {}, {})".format(*out),3)
+        self.print_mask(GW)
+        for i in range(3):
+            GW.newKey()
+            out[i] = chr(GW.key())
+            GW.set_status("your input: ({}, {}, {})".format(*out),3)
+            self.print_mask(GW)            
+        return out
     
     """
     process user input
-    """
-    def proc_input(self,msg):
-        temp = msg.split(' ')
-        # check command validity
-        if len(temp) != 3: 
-            self.input_err(msg)
-            return
-        action, r, c = temp
+    """        
+    def proc_input(self,msg,GW):
+        action, r, c = msg
         if not self.valid_action(action) or not self.valid_block(r,c):
-            self.input_err(msg)
+            self.input_err(msg,GW)
             return
         
         # process valid command
@@ -120,9 +129,9 @@ class MineSweeperBoard:
     """
     print input error message
     """
-    def input_err(self,msg):
-        print("invalid command:", msg)
-    
+    def input_err(self,msg,GW):
+        GW.set_status("previous invalid command: {}".format(msg),4)
+        self.print_mask(GW)
     
     """
     determine if game over/ win
@@ -136,47 +145,69 @@ class MineSweeperBoard:
     """
     print game board, with mask
     """
-    def print_mask(self):
+    def print_mask(self,GW):
+        GW.erase() # clear page
+        self.summary(GW) # print summary stats
+        GW.show()
+        
+        # print board
+        row_start = (GW.width-1)//2 - self.ncol-2
         temp = ' '.join(list(self.colInd))
-        print('   '+temp)
-        print('  '+'--'*self.ncol)
+        GW.add(GW.window_start-1, row_start, '   '+temp)
+        GW.add(GW.window_start, row_start,'  '+'--'*self.ncol)
         
         for i in range(self.nrow):
-            print(self.rowInd[i]+'|',end='')
+            row_ind = GW.window_start+1+i
+            GW.add(row_ind, row_start, self.rowInd[i]+'|')
             for j in range(self.ncol):
-                self.Board[i][j].print_mask()
-            print(' |')
-        print('  '+'--'*self.ncol)
+                s, color = self.Board[i][j].str_mask()
+                GW.add(row_ind, row_start+2+2*j, s, color)
+            GW.add(row_ind, row_start+2+2*self.ncol, ' |')
+            
+        GW.add(GW.window_start+1+self.nrow, row_start,'  '+'--'*self.ncol)
+        # move cursor
+        GW.stdscr.move(0,0)
+        
         
     
     
     """
     print game board, without mask
     """
-    def print_unmask(self):
-        temp = ' '.join(list(self.colInd))
-        print('   '+temp)
-        print('  '+'--'*self.ncol)
-        for i in range(self.nrow):
-            print(self.rowInd[i]+'|',end='')
-            for j in range(self.ncol):
-                self.Board[i][j].print_unmask()
-            print(' |')
-        print('  '+'--'*self.ncol)
+    def print_unmask(self,GW):
+        GW.erase() # clear page
+        self.summary(GW) # print summary stats
+        GW.show()
         
+        # print board
+        row_start = (GW.width-1)//2 - self.ncol-2
+        temp = ' '.join(list(self.colInd))
+        GW.add(GW.window_start-1, row_start, '   '+temp)
+        GW.add(GW.window_start, row_start,'  '+'--'*self.ncol)
+        
+        for i in range(self.nrow):
+            row_ind = GW.window_start+1+i
+            GW.add(row_ind, row_start, self.rowInd[i]+'|')
+            for j in range(self.ncol):
+                s, color = self.Board[i][j].str_unmask()
+                GW.add(row_ind, row_start+2+2*j,s, color )
+            GW.add(row_ind, row_start+2+2*self.ncol, ' |')
+            
+        GW.add(GW.window_start+1+self.nrow, row_start,'  '+'--'*self.ncol)
+        # move cursor
+        GW.stdscr.move(0,0)
 
      
     """
     print game summary in game process, and when gameover
     """
-    
-    def summary(self):
-        print("Number of mines:",self.Nmine)
-        print("Number of flags:",self.Nflag)
+    def summary(self,GW):
+        GW.set_status("Number of mines: {}".format(self.Nmine),0)
+        GW.set_status("Number of flags: {}".format(self.Nflag),1)
 
-    def summary_final(self):
-        print("Number of mines:",self.Nmine)
-        print("Number of clicked blocks:",self.Nclick)
-        print("Number of flags:",self.Nflag)
-        print("Number of correct flags:",self.rightFlag)
-        print("Number of wrong flags:",self.wrongFlag)
+    def summary_final(self,GW):
+        GW.set_status("Number of mines: {}".format(self.Nmine),0)
+        GW.set_status("Number of flags: {}".format(self.Nflag),1)
+        GW.set_status("Number of clicked blocks: {}".format(self.Nclick),2)
+        GW.set_status("Number of correct flags: {}".format(self.rightFlag),3)
+        GW.set_status("Number of wrong flags: {}".format(self.wrongFlag),4)

@@ -34,9 +34,9 @@ class Window:
         self.stdscr.keypad(True)
         # Start colors in curses
         curses.start_color()
-        curses.init_pair(1, curses.COLOR_CYAN, curses.COLOR_BLACK)
-        curses.init_pair(2, curses.COLOR_RED, curses.COLOR_BLACK)
-        curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_WHITE)
+        curses.init_pair(99, curses.COLOR_CYAN, curses.COLOR_BLACK)
+        curses.init_pair(98, curses.COLOR_RED, curses.COLOR_BLACK)
+        curses.init_pair(97, curses.COLOR_BLACK, curses.COLOR_WHITE)
         # max width and height
         self.height, self.width = stdscr.getmaxyx()
     
@@ -45,17 +45,17 @@ class Window:
     """
     def show(self):
         # title
-        self.stdscr.attron(curses.color_pair(2))
+        self.stdscr.attron(curses.color_pair(98))
         self.stdscr.attron(curses.A_BOLD)
         self.stdscr.addstr(0,0,self.title)
-        self.stdscr.attroff(curses.color_pair(2))
+        self.stdscr.attroff(curses.color_pair(98))
         self.stdscr.attroff(curses.A_BOLD)
         # status
-        self.stdscr.attron(curses.color_pair(3))
+        self.stdscr.attron(curses.color_pair(97))
         for i in range(self.status_rows):
             self.stdscr.addstr(self.status_start+i,0,self.status[i])
             self.stdscr.addstr(self.status_start+i, len(self.status[i]), " " * (self.width - len(self.status[i]) - 1))
-        self.stdscr.attroff(curses.color_pair(3))
+        self.stdscr.attroff(curses.color_pair(97))
 
     
     """
@@ -63,8 +63,11 @@ class Window:
     (row, col): coordinate where text to be added
     s: string to be added
     """
-    def add(self,row, col, s):
-        self.stdscr.addstr(row,col,s)
+    def add(self,row, col, s, color = None):
+        if color is None:
+            self.stdscr.addstr(row,col,s)
+        else:
+            self.stdscr.addstr(row,col,s,curses.color_pair(color))
     
     """
     return current key
