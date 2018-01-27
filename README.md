@@ -37,12 +37,8 @@ After running the command, the game would start with a random stone, eg:
  ------------
 #piece: 1   score: 0
 ```
-You can use the following keys to control movement of the stone at each step:
+You can use the direction keys on your keyboar to control movements of the stone at each step. `KEY_UP` will rotate stone 90 degrees clockwise.
 
-- `l`: move left
-- `r`: move right
-- `t`: clockwise rotation for 90 degrees
-- `n` or ` `: do nothing
 
 ## MineSweeper
 To play the game, `cd` in to the MineSweeper folder, and run 
