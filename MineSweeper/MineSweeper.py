@@ -15,13 +15,13 @@ def Gamerun(stdscr):
     initiate interactive window
     """
     params = {
-            'title_rows': 2,
-            'window_size': (Game.nrow+2, Game.ncol*2+2),
+            'title_rows': 3,
+            'window_size': (Game.nrow+4, Game.ncol*2+2),
             'status_rows': 6
             }
     window = GameWindow.Window(params,stdscr)
     window.set_title("MineSweeper.py: written by Li Zeng")
-    
+
     """
     initiate color
     """
@@ -31,8 +31,8 @@ def Gamerun(stdscr):
     curses.init_pair(3, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK)
     curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK)
-    
-    
+
+
     """
     start game
     """
@@ -40,20 +40,20 @@ def Gamerun(stdscr):
         # print game state
         Game.summary(window)
         Game.print_mask(window)
-        
+
         # check game win
         if Game.gamewin():
             window.set_status("You found all the mines! Press any button to exit ...",4)
             Game.print_mask(window)
             window.newKey()
             exit(0)
-        
+
         # take user command
         user_input = Game.request_input(window)
-        
+
         # process a valid command
         Game.proc_input(user_input,window)
-        
+
     # if game over
     window.set_status("Game over. Press any button to exit ...",5)
     Game.summary_final(window)
@@ -66,10 +66,9 @@ if __name__ == "__main__":
     nrow = int(args.R)
     ncol = int(args.C)
     Nmine = int(args.Nmine)
-    
+
     # initiate game
     Game = GameBoard.MineSweeperBoard(nrow,ncol,Nmine)
-    
+
     # play game
     wrapper(Gamerun)
-    
